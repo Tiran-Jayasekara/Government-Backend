@@ -8,7 +8,7 @@ router.get("/getAdmin/:company", getAdminByCompany);
 router.post("/addAdmin", addAdmin);
 router.post("/loginAdmin", Login);
 router.put("/updateAdmin", verifyAuth, UpdateAdmin);
-router.put("/updateAdminStatus", verifyAuth, updateAdminStatus);
+router.put("/updateAdminStatus", updateAdminStatus);
 router.delete("/deleteAdmin", verifyAuth, deleteAdmin);
 
 module.exports = router;

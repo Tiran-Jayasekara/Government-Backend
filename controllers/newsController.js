@@ -89,7 +89,7 @@ module.exports.UpdateNews = async (req, res) => {
 
 module.exports.getAllNews = async (req, res) => {
     try {
-        const allNews = await News.find({});
+        const allNews = await News.find({}).sort({ createdAt: -1 });
 
         if (allNews) {
             res.status(200).json({ message: "All News", allNews });

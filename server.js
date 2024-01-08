@@ -13,9 +13,11 @@ app.options("*", cors());
 
 const adminRouter = require("./routes/admin");
 const newsRouter =  require("./routes/news")
+const companyRouter =  require("./routes/company")
 
 app.use("/admin" ,adminRouter);
 app.use("/news",newsRouter);
+app.use("/company",companyRouter);
 
 app.listen(port, () => {
     console.log(`Node JS app listening on port ${port}`);

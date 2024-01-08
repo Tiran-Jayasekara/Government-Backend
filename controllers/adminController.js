@@ -24,8 +24,8 @@ function validateAdmin(req) {
 
 module.exports.getAdminByCompany = async (req, res) => {
     try {
-        const companyName  = req.params.company;
-        
+        const companyName = req.params.company;
+
         const AdminByCompany = await Admin.find({ company: companyName, role: { $ne: 'editor' } });
         if (AdminByCompany.length > 0) {
             res.status(200).json({ message: "Admin By Company", AdminByCompany });
@@ -147,14 +147,14 @@ module.exports.updateAdminStatus = async (req, res) => {
         status: Joi.boolean().required(),
     });
     try {
-        const { adminId, status } = req.body;
+        const { _id, status } = req.body;
         const { error } = schema.validate({
             status
         })
         if (error) {
             res.status(400).json({ message: error.message });
         } else {
-            const updateAdmin = await Admin.findOneAndUpdate({ _id: adminId }, { status }, { new: true });
+            const updateAdmin = await Admin.findOneAndUpdate({ _id: _id }, { status: status }, { new: true });
             if (updateAdmin) {
                 res.status(200).json({ message: "Update Admin Status Success", updateAdmin });
             } else {

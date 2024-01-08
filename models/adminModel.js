@@ -32,7 +32,7 @@ const AdmminSchema = new mongoose.Schema(
             type: String,
         }
     },
-    { timestamp: true }
+    { timestamps: true }
 );
 
 const Admin = mongoose.model.Admin || mongoose.model("Admin", AdmminSchema);
