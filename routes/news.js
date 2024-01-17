@@ -6,7 +6,7 @@ const { verifyAuth } = require("../middleware/authUser");
 
 
 router.get("/getNews", getAllNews);
-router.post("/addNews",verifyAuth, addNews);
+router.post("/addNews", addNews);
 // router.post("/getAdmin", Login);
 router.put("/updateNews",verifyAuth, UpdateNews);
 router.get("/getNewsByCompany/:company", NewsByCompany);

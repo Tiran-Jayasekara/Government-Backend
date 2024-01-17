@@ -24,10 +24,14 @@ const NewsSchema = new mongoose.Schema(
         company: {
             type: String,
         },
-
         description: {
             type: String,
         }
+        ,
+        showdate: {
+            type: Number,
+            required: true,
+        },
     },
     { timestamps: true }
 );

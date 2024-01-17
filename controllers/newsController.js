@@ -5,6 +5,7 @@ const app = express();
 app.use(express.json());
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const cron = require('node-cron');
 
 
 
@@ -16,7 +17,8 @@ function validateNews(req) {
         date: Joi.string(),
         time: Joi.string(),
         company: Joi.string().required(),
-        description: Joi.string()
+        description: Joi.string(),
+        showdate:Joi.number()
     });
     return schema.validate(req);
 }
@@ -27,14 +29,14 @@ module.exports.addNews = async (req, res) => {
         if (error) {
             res.status(400).json({ message: error.message });
         } else {
-            const { header, location, image, date, time, company, description } = req.body;
+            const { header, location, image, date, time, company, description,showdate} = req.body;
             const isNewsAlreadyExist = await News.findOne({ header });
             if (isNewsAlreadyExist) {
                 res.status(200).json({ message: "This News is Already Exist !" });
             } else {
 
                 const news = await News.create({
-                    header, location, image, date, time, company, description
+                    header, location, image, date, time, company, description,showdate
                 });
 
                 if (news) {
@@ -131,3 +133,31 @@ module.exports.NewsByCompany = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+cron.schedule('0 */2 * * *', async () => {
+    console.log('Two hours 1');
+    try {
+      // Calculate the date one day ago
+      const oneDayAgo = new Date();
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+      // Find and delete news older than one day
+      await News.deleteMany({ createdAt: { $lt: oneDayAgo }, showdate: 1 });
+      console.log(oneDayAgo);
+    } catch (error) {
+      console.error('Error deleting outdated news:', error);
+    }
+  });
+
+  cron.schedule('0 */2 * * *', async () => {
+    console.log('Two hours 2');
+    try {
+      // Calculate the date one day ago
+      const oneDayAgo = new Date();
+      oneDayAgo.setDate(oneDayAgo.getDate() - 2);
+      // Find and delete news older than one day
+      await News.deleteMany({ createdAt: { $lt: oneDayAgo }, showdate: 2 });
+      console.log(oneDayAgo);
+    } catch (error) {
+      console.error('Error deleting outdated news:', error);
+    }
+  });
