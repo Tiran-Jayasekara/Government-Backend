@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Company = require("../models/governmentModal");
 
+// This function for Validate company data
 function validateCompany(req) {
     const schema = Joi.object({
         img: Joi.string().required(),
@@ -27,6 +28,7 @@ function validateCompany(req) {
     return schema.validate(req);
 }
 
+// This method for add government company data
 module.exports.addGovernmentCompany = async (req, res) => {
     try {
         const { error } = validateCompany(req.body);
@@ -55,7 +57,7 @@ module.exports.addGovernmentCompany = async (req, res) => {
     }
 }
 
-
+// This method for get all company data
 module.exports.getAllCompany = async (req, res) => {
     try {
         constallCompanies = await Company.find({}).select('_id img name status company description');
@@ -71,6 +73,7 @@ module.exports.getAllCompany = async (req, res) => {
 };
 
 
+// This method for get one company data
 module.exports.OneCompanyData = async (req, res) => {
     try {
         const companyName = req.params.company;
@@ -87,7 +90,7 @@ module.exports.OneCompanyData = async (req, res) => {
     }
 };
 
-
+// This method for update company data
 module.exports.UpdateCompany = async (req, res) => {
     const schema = Joi.object({
         _id: Joi.required(),
@@ -129,6 +132,7 @@ module.exports.UpdateCompany = async (req, res) => {
     }
 }
 
+// This method for update compnay status
 module.exports.UpdateCompanyStatus = async (req, res) => {
     const schema = Joi.object({
         _id: Joi.required(),
@@ -146,7 +150,7 @@ module.exports.UpdateCompanyStatus = async (req, res) => {
             res.status(400).json({ message: error.message });
         } else {
 
-            const updateCompanyStatus = await Company.findOneAndUpdate({ _id: _id }, {status}, { new: true });
+            const updateCompanyStatus = await Company.findOneAndUpdate({ _id: _id }, { status }, { new: true });
             if (updateCompanyStatus) {
                 res.status(200).json({ message: "Update Company Status", updateCompanyStatus });
             } else {

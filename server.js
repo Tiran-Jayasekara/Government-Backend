@@ -1,7 +1,7 @@
 const express = require("express");
 const database = require("./database/database");
 // const Product = require("./models/ProductModels");
-const { mongo } = require("mongoose");
+
 
 const app = express();
 const port = 3001;
@@ -14,6 +14,7 @@ app.options("*", cors());
 const adminRouter = require("./routes/admin");
 const newsRouter =  require("./routes/news")
 const companyRouter =  require("./routes/company")
+
 
 app.use("/admin" ,adminRouter);
 app.use("/news",newsRouter);

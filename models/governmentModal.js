@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// This is schema for company
 const NewsSchema = new mongoose.Schema(
     {
         img: {

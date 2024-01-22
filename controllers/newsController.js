@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const cron = require('node-cron');
 
 
-
+// This function for validate News Input data
 function validateNews(req) {
     const schema = Joi.object({
         header: Joi.string().min(3).required(),
@@ -18,25 +18,26 @@ function validateNews(req) {
         time: Joi.string(),
         company: Joi.string().required(),
         description: Joi.string(),
-        showdate:Joi.number()
+        showdate: Joi.number()
     });
     return schema.validate(req);
 }
 
+// This method for add news
 module.exports.addNews = async (req, res) => {
     try {
         const { error } = validateNews(req.body);
         if (error) {
             res.status(400).json({ message: error.message });
         } else {
-            const { header, location, image, date, time, company, description,showdate} = req.body;
+            const { header, location, image, date, time, company, description, showdate } = req.body;
             const isNewsAlreadyExist = await News.findOne({ header });
             if (isNewsAlreadyExist) {
                 res.status(200).json({ message: "This News is Already Exist !" });
             } else {
 
                 const news = await News.create({
-                    header, location, image, date, time, company, description,showdate
+                    header, location, image, date, time, company, description, showdate
                 });
 
                 if (news) {
@@ -53,6 +54,7 @@ module.exports.addNews = async (req, res) => {
 }
 
 
+// This method for update News
 module.exports.UpdateNews = async (req, res) => {
     const schema = Joi.object({
         _id: Joi.required(),
@@ -89,6 +91,7 @@ module.exports.UpdateNews = async (req, res) => {
 }
 
 
+// This method for get All news Data
 module.exports.getAllNews = async (req, res) => {
     try {
         const allNews = await News.find({}).sort({ createdAt: -1 });
@@ -103,9 +106,10 @@ module.exports.getAllNews = async (req, res) => {
     }
 };
 
+// This method for delete News
 module.exports.deleteNews = async (req, res) => {
     try {
-        const newsId  = req.params.id;
+        const newsId = req.params.id;
         const deleteNews = await News.findByIdAndDelete(newsId);
         if (deleteNews) {
             res.status(200).json({ message: "News Delete Success", deleteNews })
@@ -117,7 +121,7 @@ module.exports.deleteNews = async (req, res) => {
     }
 }
 
-
+// This method for get News By Company
 module.exports.NewsByCompany = async (req, res) => {
     try {
         const companyName = req.params.company;
@@ -137,27 +141,27 @@ module.exports.NewsByCompany = async (req, res) => {
 cron.schedule('0 */2 * * *', async () => {
     console.log('Two hours 1');
     try {
-      // Calculate the date one day ago
-      const oneDayAgo = new Date();
-      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-      // Find and delete news older than one day
-      await News.deleteMany({ createdAt: { $lt: oneDayAgo }, showdate: 1 });
-      console.log(oneDayAgo);
+        // Calculate the date one day ago
+        const oneDayAgo = new Date();
+        oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+        // Find and delete news older than one day
+        await News.deleteMany({ createdAt: { $lt: oneDayAgo }, showdate: 1 });
+        console.log(oneDayAgo);
     } catch (error) {
-      console.error('Error deleting outdated news:', error);
+        console.error('Error deleting outdated news:', error);
     }
-  });
+});
 
-  cron.schedule('0 */2 * * *', async () => {
+cron.schedule('0 */2 * * *', async () => {
     console.log('Two hours 2');
     try {
-      // Calculate the date one day ago
-      const oneDayAgo = new Date();
-      oneDayAgo.setDate(oneDayAgo.getDate() - 2);
-      // Find and delete news older than one day
-      await News.deleteMany({ createdAt: { $lt: oneDayAgo }, showdate: 2 });
-      console.log(oneDayAgo);
+        // Calculate the date one day ago
+        const oneDayAgo = new Date();
+        oneDayAgo.setDate(oneDayAgo.getDate() - 2);
+        // Find and delete news older than one day
+        await News.deleteMany({ createdAt: { $lt: oneDayAgo }, showdate: 2 });
+        console.log(oneDayAgo);
     } catch (error) {
-      console.error('Error deleting outdated news:', error);
+        console.error('Error deleting outdated news:', error);
     }
-  });
+});

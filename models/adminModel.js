@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// This is schema for Admin
 const AdmminSchema = new mongoose.Schema(
     {
         name: {

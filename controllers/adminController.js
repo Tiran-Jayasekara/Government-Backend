@@ -22,6 +22,7 @@ function validateAdmin(req) {
     return schema.validate(req);
 }
 
+// This method For get admin data by Company
 module.exports.getAdminByCompany = async (req, res) => {
     try {
         const companyName = req.params.company;
@@ -37,6 +38,7 @@ module.exports.getAdminByCompany = async (req, res) => {
     }
 }
 
+// This method for Register admin to the system
 module.exports.addAdmin = async (req, res) => {
     try {
         const { error } = validateAdmin(req.body);
@@ -74,7 +76,7 @@ module.exports.addAdmin = async (req, res) => {
     }
 }
 
-
+// This method for Login Admin
 module.exports.Login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -106,6 +108,7 @@ module.exports.Login = async (req, res) => {
 };
 
 
+//This method For Update Admin Data
 module.exports.UpdateAdmin = async (req, res) => {
     const schema = Joi.object({
         name: Joi.string().min(3).max(30).required(),
@@ -141,6 +144,7 @@ module.exports.UpdateAdmin = async (req, res) => {
     }
 }
 
+// This method for Update Admin Status
 module.exports.updateAdminStatus = async (req, res) => {
 
     const schema = Joi.object({
@@ -166,6 +170,7 @@ module.exports.updateAdminStatus = async (req, res) => {
     }
 }
 
+// This method For Delete Admin
 module.exports.deleteAdmin = async (req, res) => {
     try {
         const { adminId } = req.body;

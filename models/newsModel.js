@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// This is Schema for news
 const NewsSchema = new mongoose.Schema(
     {
         header: {
