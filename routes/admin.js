@@ -7,7 +7,7 @@ const { verifyAuth } = require("../middleware/authUser");
 router.get("/getAdmin/:company", getAdminByCompany);
 router.post("/addAdmin", addAdmin);
 router.post("/loginAdmin", Login);
-router.put("/updateAdmin", verifyAuth, UpdateAdmin);
+router.put("/updateAdmin", UpdateAdmin);
 router.put("/updateAdminStatus", updateAdminStatus);
 router.delete("/deleteAdmin", verifyAuth, deleteAdmin);
 

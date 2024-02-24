@@ -17,6 +17,7 @@ function validateAdmin(req) {
         status: Joi.boolean(),
         role: Joi.string().required(),
         company: Joi.string().required(),
+        companyType : Joi.string().required(),
         description: Joi.string()
     });
     return schema.validate(req);
@@ -45,7 +46,7 @@ module.exports.addAdmin = async (req, res) => {
         if (error) {
             res.status(400).json({ message: error.message });
         } else {
-            const { name, email, password, role, mobile, status, company, description } = req.body;
+            const { name, email, password, role, mobile, status, company,companyType ,description } = req.body;
             const isUserAlreadyExist = await Admin.findOne({ email });
             if (isUserAlreadyExist) {
                 res.status(200).json({ message: "This email is Already Exist !" });
@@ -60,6 +61,7 @@ module.exports.addAdmin = async (req, res) => {
                     mobile,
                     status,
                     company,
+                    companyType,
                     description
                 });
 
@@ -118,20 +120,21 @@ module.exports.UpdateAdmin = async (req, res) => {
         status: Joi.boolean(),
         role: Joi.string().required(),
         company: Joi.string().required(),
+        companyType: Joi.string().required(),
         description: Joi.string()
     });
 
     try {
-        const { _id, name, email, password, role, mobile, status, company, description } = req.body;
+        const { _id, name, email, password, role, mobile, status, company,companyType, description } = req.body;
         const { error } = schema.validate({
-            name, email, password, role, mobile, status, company, description
+            name, email, password, role, mobile, status, company,companyType, description
         });
 
         if (error) {
             res.status(400).json({ message: error.message });
         } else {
 
-            const updateAdmin = await Admin.findOneAndUpdate({ _id: _id }, { name, email, password, role, mobile, status, company, description }, { new: true });
+            const updateAdmin = await Admin.findOneAndUpdate({ _id: _id }, { name, email, password, role, mobile, status, company,companyType, description }, { new: true });
             if (updateAdmin) {
                 res.status(200).json({ message: "Update Success", updateAdmin });
             } else {

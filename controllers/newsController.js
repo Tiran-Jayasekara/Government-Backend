@@ -138,30 +138,30 @@ module.exports.NewsByCompany = async (req, res) => {
     }
 };
 
-cron.schedule('0 */2 * * *', async () => {
-    console.log('Two hours 1');
-    try {
-        // Calculate the date one day ago
-        const oneDayAgo = new Date();
-        oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-        // Find and delete news older than one day
-        await News.deleteMany({ createdAt: { $lt: oneDayAgo }, showdate: 1 });
-        console.log(oneDayAgo);
-    } catch (error) {
-        console.error('Error deleting outdated news:', error);
-    }
-});
+// cron.schedule('0 */2 * * *', async () => {
+//     console.log('Two hours 1');
+//     try {
+//         // Calculate the date one day ago
+//         const oneDayAgo = new Date();
+//         oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+//         // Find and delete news older than one day
+//         await News.deleteMany({ createdAt: { $lt: oneDayAgo }, showdate: 1 });
+//         console.log(oneDayAgo);
+//     } catch (error) {
+//         console.error('Error deleting outdated news:', error);
+//     }
+// });
 
-cron.schedule('0 */2 * * *', async () => {
-    console.log('Two hours 2');
-    try {
-        // Calculate the date one day ago
-        const oneDayAgo = new Date();
-        oneDayAgo.setDate(oneDayAgo.getDate() - 2);
-        // Find and delete news older than one day
-        await News.deleteMany({ createdAt: { $lt: oneDayAgo }, showdate: 2 });
-        console.log(oneDayAgo);
-    } catch (error) {
-        console.error('Error deleting outdated news:', error);
-    }
-});
+// cron.schedule('0 */2 * * *', async () => {
+//     console.log('Two hours 2');
+//     try {
+//         // Calculate the date one day ago
+//         const oneDayAgo = new Date();
+//         oneDayAgo.setDate(oneDayAgo.getDate() - 2);
+//         // Find and delete news older than one day
+//         await News.deleteMany({ createdAt: { $lt: oneDayAgo }, showdate: 2 });
+//         console.log(oneDayAgo);
+//     } catch (error) {
+//         console.error('Error deleting outdated news:', error);
+//     }
+// });

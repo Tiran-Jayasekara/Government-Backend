@@ -29,6 +29,10 @@ const AdmminSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        companyType: {
+            type: String,
+            required: true,
+        },
         descroption: {
             type: String,
         }
