@@ -8,6 +8,8 @@ function validateItem(req) {
         brand: Joi.string(),
         price: Joi.string(),
         company: Joi.string().required(),
+        companyId: Joi.string().required(),
+        availability: Joi.boolean(),
         itemType: Joi.string().required(),
         description: Joi.string().required(),
     });
@@ -21,10 +23,10 @@ module.exports.addItem = async (req, res) => {
         if (error) {
             res.status(400).json({ message: error.message });
         } else {
-            const { itemName, img, brand, price, company, itemType, description } = req.body;
+            const { itemName, img, brand, price, company, companyId, availability, itemType, description } = req.body;
 
             const item = await Item.create({
-                itemName, img, brand, price, company, itemType, description
+                itemName, img, brand, price, company, companyId, availability, itemType, description
             });
             if (item) {
                 console.log("Item Add Successfull");
@@ -39,13 +41,13 @@ module.exports.addItem = async (req, res) => {
 }
 
 
-// Get Items By Company
-module.exports.ItemByCompany = async (req, res) => {
+// Get Items By Shop
+module.exports.ItemByShop = async (req, res) => {
     try {
-        const companyName = req.params.company;
-        const ItemsByCompany = await Item.find({ company: companyName });
-        if (ItemsByCompany.length > 0) {
-            res.status(200).json({ message: "Items By Company", ItemsByCompany });
+        const shopId = req.params.shopId;
+        const ItemsByShop = await Item.find({ companyId: shopId });
+        if (ItemsByShop.length > 0) {
+            res.status(200).json({ message: "Items By Shop", ItemsByShop });
         } else {
             res
                 .status(200)
@@ -65,21 +67,23 @@ module.exports.UpdateItem = async (req, res) => {
         brand: Joi.string(),
         price: Joi.string(),
         company: Joi.string().required(),
+        companyId: Joi.string().required(),
+        availability: Joi.boolean(),
         itemType: Joi.string().required(),
         description: Joi.string().required(),
     });
 
     try {
-        const { _id, itemName, img, brand, price, company, itemType, description } = req.body;
+        const { _id, itemName, img, brand, price, company, itemType, companyId, availability, description } = req.body;
         const { error } = schema.validate({
-            _id, itemName, img, brand, price, company, itemType, description
+            _id, itemName, img, brand, price, company, companyId, availability, itemType, description
         });
 
         if (error) {
             res.status(400).json({ message: error.message });
         } else {
 
-            const updateItem = await Item.findOneAndUpdate({ _id: _id }, { itemName, img, brand, price, company, itemType, description }, { new: true });
+            const updateItem = await Item.findOneAndUpdate({ _id: _id }, { itemName, img, brand, price, company, companyId, availability, itemType, description }, { new: true });
             if (updateItem) {
                 res.status(200).json({ message: "Item Update Success", updateItem });
             } else {

@@ -19,6 +19,14 @@ const ItemSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        companyId: {
+            type: String,
+            required: true,
+        },
+        availability: {
+            type: Boolean,
+            required: true,
+        },
         price: {
             type: String,
             required: true,
