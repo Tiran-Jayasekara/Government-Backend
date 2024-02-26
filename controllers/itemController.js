@@ -8,6 +8,7 @@ function validateItem(req) {
         brand: Joi.string(),
         price: Joi.string(),
         company: Joi.string().required(),
+        itemType: Joi.string().required(),
         description: Joi.string().required(),
     });
     return schema.validate(req);
@@ -20,10 +21,10 @@ module.exports.addItem = async (req, res) => {
         if (error) {
             res.status(400).json({ message: error.message });
         } else {
-            const { itemName, img, brand, price, company, description } = req.body;
+            const { itemName, img, brand, price, company, itemType, description } = req.body;
 
             const item = await Item.create({
-                itemName, img, brand, price, company, description
+                itemName, img, brand, price, company, itemType, description
             });
             if (item) {
                 console.log("Item Add Successfull");
@@ -64,20 +65,21 @@ module.exports.UpdateItem = async (req, res) => {
         brand: Joi.string(),
         price: Joi.string(),
         company: Joi.string().required(),
+        itemType: Joi.string().required(),
         description: Joi.string().required(),
     });
 
     try {
-        const { _id, itemName, img, brand, price, company, description } = req.body;
+        const { _id, itemName, img, brand, price, company, itemType, description } = req.body;
         const { error } = schema.validate({
-            _id, itemName, img, brand, price, company, description
+            _id, itemName, img, brand, price, company, itemType, description
         });
 
         if (error) {
             res.status(400).json({ message: error.message });
         } else {
 
-            const updateItem = await Item.findOneAndUpdate({ _id: _id }, { itemName, img, brand, price, company, description }, { new: true });
+            const updateItem = await Item.findOneAndUpdate({ _id: _id }, { itemName, img, brand, price, company, itemType, description }, { new: true });
             if (updateItem) {
                 res.status(200).json({ message: "Item Update Success", updateItem });
             } else {

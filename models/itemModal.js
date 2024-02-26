@@ -23,6 +23,10 @@ const ItemSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        itemType: {
+            type: String,
+            required: true,
+        },
         description: {
             type: String,
         }
