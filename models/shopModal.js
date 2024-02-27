@@ -7,39 +7,7 @@ const ShopSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        coverImg: {
-            type: String,
-            required: true,
-        },
-        name: {
-            type: String,
-            required: true,
-        },
-        shop: {
-            type: String, // Assuming shop is a string identifier or name
-            required: true,
-        },
-        shopType: {
-            type: String,
-            required: true,
-        },
-        status: {
-            type: Boolean,
-            required: true,
-        },
-        description: {
-            type: String,
-            required: true,
-        },
-        whatWeProvideHeader: {
-            type: String,
-            required: true,
-        },
-        whatWeProvideDescription: {
-            type: String,
-            required: true,
-        },
-        whatWeProvide: [
+        header: [
             {
                 img: {
                     type: String,
@@ -55,6 +23,34 @@ const ShopSchema = new mongoose.Schema(
                 },
             },
         ],
+        name: {
+            type: String,
+            required: true,
+        },
+        company: {
+            type: String, // Assuming shop is a string identifier or name
+            required: true,
+        },
+        shopType: {
+            type: String,
+            required: true,
+        },
+        status: {
+            type: Boolean,
+            required: true,
+        },
+        description: {
+            type: String,
+            required: true,
+        },
+        aboutUs: {
+            type: String,
+            required: true,
+        },
+        aboutUsDescription: {
+            type: String,
+            required: true,
+        },
         gallery: {
             type: {
                 img1: String,
@@ -62,6 +58,8 @@ const ShopSchema = new mongoose.Schema(
                 img3: String,
                 img4: String,
                 img5: String,
+                img6: String,
+                img7: String,
             },
             required: true,
         },

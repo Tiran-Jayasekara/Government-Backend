@@ -4,19 +4,18 @@ const Shop = require("../models/shopModal");
 function validateCompany(req) {
     const schema = Joi.object({
         img: Joi.string().required(),
-        coverImg: Joi.string().required(),
+        header: Joi.array().items(Joi.object({
+            img: Joi.string().required(),
+            topic: Joi.string().required(),
+            description: Joi.string().required()
+        })).required(),
         name: Joi.string().required(),
         company: Joi.string().required(),
         shopType: Joi.string().required(),
         status: Joi.required(), // Assuming status is also a string
         description: Joi.string().required(),
-        whatWeProvideHeader: Joi.string().required(),
-        whatWeProvideDescription: Joi.string().required(),
-        whatWeProvide: Joi.array().items(Joi.object({
-            img: Joi.string().required(),
-            topic: Joi.string().required(),
-            description: Joi.string().required()
-        })).required(), // Assuming whatWeProvide is an array of objects with img, topic, and description
+        aboutUs: Joi.string().required(),
+        aboutUsDescription: Joi.string().required(),
         gallery: Joi.object().required(), // Assuming gallery is an object
         testimonialsImg: Joi.string().required(),
         mapLocation: Joi.string().required(),
@@ -38,13 +37,13 @@ module.exports.addShop = async (req, res) => {
         if (error) {
             res.status(200).json({ message: error.message });
         } else {
-            const { img, coverImg, name, company, shopType, status, description, whatWeProvideHeader, whatWeProvideDescription, whatWeProvide, gallery, testimonialsImg, mapLocation, getInTouch, address, deleteShop } = req.body;
+            const { img, header, name, company, shopType, status, description, aboutUs, aboutUsDescription, gallery, testimonialsImg, mapLocation, getInTouch, address, deleteShop } = req.body;
             const isShopAlreadyExist = await Shop.findOne({ company });
             if (isShopAlreadyExist) {
                 res.status(200).json({ message: "This Shop is Already Exist !" });
             } else {
                 const shopData = await Shop.create({
-                    img, coverImg, name, company, shopType, status, description, whatWeProvideHeader, whatWeProvideDescription, whatWeProvide, gallery, testimonialsImg, mapLocation, getInTouch, address, deleteShop
+                    img, header, name, company, shopType, status, description, aboutUs, aboutUsDescription, gallery, testimonialsImg, mapLocation, getInTouch, address, deleteShop
                 });
 
                 if (shopData) {
@@ -93,24 +92,22 @@ module.exports.OneShopData = async (req, res) => {
 };
 
 
-
 module.exports.UpdateShop = async (req, res) => {
     const schema = Joi.object({
         _id: Joi.required(),
         img: Joi.string().required(),
-        coverImg: Joi.string().required(),
+        header: Joi.array().items(Joi.object({
+            img: Joi.string().required(),
+            topic: Joi.string().required(),
+            description: Joi.string().required()
+        })).required(),
         name: Joi.string().required(),
         company: Joi.string().required(),
         shopType: Joi.string().required(),
         status: Joi.required(), // Assuming status is also a string
         description: Joi.string().required(),
-        whatWeProvideHeader: Joi.string().required(),
-        whatWeProvideDescription: Joi.string().required(),
-        whatWeProvide: Joi.array().items(Joi.object({
-            img: Joi.string().required(),
-            topic: Joi.string().required(),
-            description: Joi.string().required()
-        })).required(), // Assuming whatWeProvide is an array of objects with img, topic, and description
+        aboutUs: Joi.string().required(),
+        aboutUsDescription: Joi.string().required(),
         gallery: Joi.object().required(), // Assuming gallery is an object
         testimonialsImg: Joi.string().required(),
         mapLocation: Joi.string().required(),
@@ -124,16 +121,16 @@ module.exports.UpdateShop = async (req, res) => {
     });
 
     try {
-        const { _id, img, coverImg, name, company, shopType, status, description, whatWeProvideHeader, whatWeProvideDescription, whatWeProvide, gallery, testimonialsImg, mapLocation, getInTouch, address, deleteShop } = req.body;
+        const { _id, img, header, name, company, shopType, status, description, aboutUs, aboutUsDescription, gallery, testimonialsImg, mapLocation, getInTouch, address, deleteShop } = req.body;
         const { error } = schema.validate({
-            _id, img, coverImg, name, company, shopType, status, description, whatWeProvideHeader, whatWeProvideDescription, whatWeProvide, gallery, testimonialsImg, mapLocation, getInTouch, address, deleteShop
+            _id, img, header, name, company, shopType, status, description, aboutUs, aboutUsDescription, gallery, testimonialsImg, mapLocation, getInTouch, address, deleteShop
         });
 
         if (error) {
             res.status(400).json({ message: error.message });
         } else {
 
-            const updateShop = await Shop.findOneAndUpdate({ _id: _id }, { img, coverImg, name, company, shopType, status, description, whatWeProvideHeader, whatWeProvideDescription, whatWeProvide, gallery, testimonialsImg, mapLocation, getInTouch, address, deleteShop }, { new: true });
+            const updateShop = await Shop.findOneAndUpdate({ _id: _id }, { img, header, name, company, shopType, status, description, aboutUs, aboutUsDescription, gallery, testimonialsImg, mapLocation, getInTouch, address, deleteShop }, { new: true });
             if (updateShop) {
                 res.status(200).json({ message: "Update Shop", updateShop });
             } else {
