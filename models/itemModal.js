@@ -40,6 +40,10 @@ const ItemSchema = new mongoose.Schema(
         },
         description: {
             type: String,
+        },
+        searchKeyWord:{
+            type: String,
+            required: true,
         }
     },
     { timestamps: true }
