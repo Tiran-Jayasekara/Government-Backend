@@ -62,7 +62,6 @@ module.exports.ItemByShop = async (req, res) => {
 //Get All Items
 module.exports.AllItems = async (req, res) => {
     try {
-        const pageNumber = req.params.number;
         const allItems = await Item.find({});
         if (allItems.length > 0) {
             res.status(200).json({ message: "All Items", allItems });
@@ -203,4 +202,52 @@ module.exports.deleteItemByCompany = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
+
+// shuffleItems
+module.exports.shuffleItems = async (req, res) => {
+    try {
+        // Retrieve all items from the collection
+        const allItems = await Item.find({});
+
+        // Shuffle the items randomly
+        const shuffledItems = await shuffleArray(allItems);
+
+        // Update each item with a new random position
+        await Item.deleteMany({});
+
+        // Update the items in bulk
+        const result = await Item.insertMany(shuffledItems);
+
+        res.status(200).json({ message: "Items shuffled successfully", result });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// uplode ManyItems
+module.exports.uplodeManyItems = async (req, res) => {
+    try {
+        const itemsArray = req.body;
+        const result = await Item.insertMany(itemsArray);
+        if (result) {
+            res.status(200).json({ message: "Items uploaded successfully", result });
+        } else {
+            res.status(200).json({ message: "Items uploaded Unsuccessfully" });
+        }
+
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+// Function to shuffle an array
+const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    return array;
+
+};
 
