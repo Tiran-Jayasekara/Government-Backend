@@ -36,7 +36,7 @@ module.exports.addGovernmentCompany = async (req, res) => {
             res.status(200).json({ message: error.message });
         } else {
             const { img, name, company, status, description, coverimg, profileimg, city, aboutUsimg, vision, mission, whatWeDo, whatWeDoUsimg, services } = req.body;
-            const isCompanyAlreadyExist = await Company.findOne({ name });
+            const isCompanyAlreadyExist = await Company.findOne({ company });
             if (isCompanyAlreadyExist) {
                 res.status(200).json({ message: "This Company is Already Exist !" });
             } else {

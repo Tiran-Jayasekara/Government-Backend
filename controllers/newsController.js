@@ -28,7 +28,7 @@ module.exports.addNews = async (req, res) => {
     try {
         const { error } = validateNews(req.body);
         if (error) {
-            res.status(400).json({ message: error.message });
+            res.status(200).json({ message: error.message });
         } else {
             const { header, location, image, date, time, company, description, showdate } = req.body;
             const isNewsAlreadyExist = await News.findOne({ header });
@@ -41,10 +41,9 @@ module.exports.addNews = async (req, res) => {
                 });
 
                 if (news) {
-                    console.log("News Add Successfull");
                     res.status(200).json({ message: "News Add Successfull", news });
                 } else {
-                    res.status(400).json({ message: "Unsuccess" });
+                    res.status(200).json({ message: "Unsuccess" });
                 }
             }
         }
@@ -74,14 +73,45 @@ module.exports.UpdateNews = async (req, res) => {
         });
 
         if (error) {
-            res.status(400).json({ message: error.message });
+            res.status(200).json({ message: error.message });
         } else {
 
             const updateNews = await News.findOneAndUpdate({ _id: _id }, { header, location, image, date, time, company, description }, { new: true });
             if (updateNews) {
                 res.status(200).json({ message: "Update Success", updateNews });
             } else {
-                res.status(400).json({ message: "Update UnSuccess" });
+                res.status(200).json({ message: "Update UnSuccess" });
+            }
+        }
+
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+
+
+module.exports.UpdateNewsCoverImg = async (req, res) => {
+    const schema = Joi.object({
+        _id: Joi.required(),
+        image: Joi.string().min(5).required(),
+    });
+
+    try {
+        const { _id, image } = req.body;
+        const { error } = schema.validate({
+            _id, image
+        });
+
+        if (error) {
+            res.status(200).json({ message: error.message });
+        } else {
+
+            const updateNews = await News.findOneAndUpdate({ _id: _id }, { image }, { new: true });
+            if (updateNews) {
+                res.status(200).json({ message: "Update image success", updateNews });
+            } else {
+                res.status(200).json({ message: "Update UnSuccess" });
             }
         }
 
@@ -99,7 +129,7 @@ module.exports.getAllNews = async (req, res) => {
         if (allNews) {
             res.status(200).json({ message: "All News", allNews });
         } else {
-            res.status(400).json({ message: "No News" });
+            res.status(200).json({ message: "No News" });
         }
     } catch (error) {
         res.status(200).json({ message: error.message });
@@ -114,7 +144,7 @@ module.exports.deleteNews = async (req, res) => {
         if (deleteNews) {
             res.status(200).json({ message: "News Delete Success", deleteNews })
         } else {
-            res.status(400).json({ message: "Couldnt find News " });
+            res.status(200).json({ message: "Couldnt find News " });
         }
     } catch (error) {
         res.status(400).json({ message: error.message });

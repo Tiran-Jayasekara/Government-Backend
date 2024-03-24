@@ -89,7 +89,6 @@ module.exports.Login = async (req, res) => {
                 const token = jwt.sign(
                     {
                         id: checkAdmin._id,
-                        email: checkAdmin?.email,
                         role: checkAdmin?.role,
                         company: checkAdmin?.company,
                     },

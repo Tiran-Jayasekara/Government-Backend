@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const { verifyAuth } = require("../middleware/authUser");
 
 
-const { addShop, getAllShops, OneShopData, UpdateShop, deleteShop , UpdateShopStatus } = require("../controllers/shopController");
+const { addShop, getAllShops, OneShopData, UpdateShop, deleteShop, UpdateShopStatus } = require("../controllers/shopController");
 
-router.post("/addShop", addShop);
+router.post("/addShop", verifyAuth, addShop);
 router.get("/getAllShops", getAllShops);
 router.get("/getShopData/:shop", OneShopData);
-router.put("/updateShop", UpdateShop);
-router.put("/updateShopStatus", UpdateShopStatus);
-router.delete("/deleteShop/:id", deleteShop);
+router.put("/updateShop", verifyAuth, UpdateShop);
+router.put("/updateShopStatus", verifyAuth, UpdateShopStatus);
+router.delete("/deleteShop/:id", verifyAuth, deleteShop);
 
 module.exports = router;
